@@ -28,17 +28,13 @@ pipeline {
             }
         }
     }
-    node {
-  stage('SCM') {
-    checkout scm
-  }
+    
   stage('SonarQube Analysis') {
     def scannerHome = tool 'sonar-npm';
     withSonarQubeEnv() {
       sh "${scannerHome}/bin/sonar-npm"
     }
   }
-}
 
     post {
         success {
