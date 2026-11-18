@@ -15,6 +15,14 @@ pipeline {
                 sh 'npm ci'
             }
         }
+        stage('SonarQube Analysis') {
+      steps {
+    def scannerHome = tool 'sonar-npm';
+    withSonarQubeEnv() {
+      sh "${scannerHome}/bin/sonar-scanner"
+    }
+    }
+  }
 
         stage('Test') {
             steps {
@@ -28,15 +36,6 @@ pipeline {
             }
         }
     }
-    
-  stage('SonarQube Analysis') {
-      steps {
-    def scannerHome = tool 'sonar-npm';
-    withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner"
-    }
-    }
-  }
 
     post {
         success {
